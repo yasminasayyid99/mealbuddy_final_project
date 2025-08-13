@@ -58,4 +58,5 @@ jobs:
         with:
           app-name: 'mealbuddyfinalproject'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_007B7DEEE75942EA8250E73E8527AAFB }}
+
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
