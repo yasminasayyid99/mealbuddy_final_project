@@ -7,8 +7,8 @@ from flask_migrate import Migrate
 from config import Config
 import os
 
-# Import db from database module
 from database import db
+
 jwt = JWTManager()
 socketio = SocketIO(cors_allowed_origins="*")
 migrate = Migrate()
@@ -17,14 +17,12 @@ def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
     
-    # Initialize extensions with app
     db.init_app(app)
     jwt.init_app(app)
     socketio.init_app(app)
     migrate.init_app(app, db)
     CORS(app)
     
-    # Register blueprints
     from routes.auth import auth_bp
     from routes.events import events_bp
     from routes.chat import chat_bp
@@ -39,11 +37,9 @@ def create_app(config_class=Config):
     app.register_blueprint(upload_bp, url_prefix='/api/upload')
     app.register_blueprint(users_bp, url_prefix='/api/users')
     
-    # Create upload directory
     upload_dir = os.path.join(app.instance_path, app.config['UPLOAD_FOLDER'])
     os.makedirs(upload_dir, exist_ok=True)
     
-    # Create database tables
     with app.app_context():
         db.create_all()
     
@@ -52,6 +48,7 @@ def create_app(config_class=Config):
         return {'status': 'healthy', 'message': 'MealBuddy Flask API is running'}
     
     return app
+
 
 if __name__ == '__main__':
     app = create_app()
