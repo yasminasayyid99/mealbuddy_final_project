@@ -1,125 +1,126 @@
-# MealBuddy - 饭局社交平台
+# MealBuddy - Social Dining Platform
 
-一个基于React和Flask的现代化饭局组织与社交平台，让用户能够轻松创建、参与和管理各种美食聚会活动。
+A modern dining event organization and social platform based on React and Flask, enabling users to easily create, participate in, and manage various food gathering activities.
 
-## 🚀 技术栈
+## 🚀 Tech Stack
 
-### 前端技术
-- **React 18.2.0** - 现代化前端框架
-- **Vite 5.4.0** - 快速构建工具和开发服务器
-- **Socket.IO Client 4.8.1** - 实时通信客户端
-- **原生CSS** - 响应式UI设计
-- **JavaScript ES6+** - 现代JavaScript特性
+### Frontend Technologies
+- **React 18.2.0** - Modern frontend framework
+- **Vite 5.4.0** - Fast build tool and development server
+- **Socket.IO Client 4.8.1** - Real-time communication client
+- **Native CSS** - Responsive UI design
+- **JavaScript ES6+** - Modern JavaScript features
 
-### 后端技术
-- **Flask 2.3.3** - Python轻量级Web框架
-- **Flask-SQLAlchemy 3.0.5** - ORM数据库操作
-- **Flask-JWT-Extended 4.5.3** - JWT身份认证
-- **Flask-SocketIO 5.3.6** - WebSocket实时通信
-- **Flask-CORS 4.0.0** - 跨域资源共享
-- **Flask-Migrate 4.0.5** - 数据库迁移
-- **SQLite** - 轻量级数据库
-- **Werkzeug 2.3.7** - WSGI工具库
-- **Pillow 10.0.1** - 图像处理
-- **bcrypt 4.0.1** - 密码加密
-### AI集成
-- **ChatAnywhere API** - GPT-3.5-turbo模型
-- **智能推荐系统** - 基于用户偏好的餐厅和活动推荐
+### Backend Technologies
+- **Flask 2.3.3** - Python lightweight web framework
+- **Flask-SQLAlchemy 3.0.5** - ORM database operations
+- **Flask-JWT-Extended 4.5.3** - JWT authentication
+- **Flask-SocketIO 5.3.6** - WebSocket real-time communication
+- **Flask-CORS 4.0.0** - Cross-origin resource sharing
+- **Flask-Migrate 4.0.5** - Database migration
+- **SQLite** - Lightweight database
+- **Werkzeug 2.3.7** - WSGI utility library
+- **Pillow 10.0.1** - Image processing
+- **bcrypt 4.0.1** - Password encryption
 
-## 📁 项目结构
+### AI Integration
+- **ChatAnywhere API** - GPT-3.5-turbo model
+- **Intelligent Recommendation System** - Restaurant and event recommendations based on user preferences
+
+## 📁 Project Structure
 
 ```
 mealbuddy_final/
-├── backend/                 # Flask后端服务
-│   ├── models/             # 数据模型
-│   │   ├── user.py        # 用户模型
-│   │   ├── event.py       # 活动模型
-│   │   └── chat.py        # 聊天消息模型
-│   ├── routes/             # API路由
-│   │   ├── auth.py        # 认证相关API
-│   │   ├── events.py      # 活动相关API
-│   │   ├── chat.py        # 聊天相关API
-│   │   ├── ai.py          # AI助手API
-│   │   ├── upload.py      # 文件上传API
-│   │   └── users.py       # 用户相关API
-│   ├── services/           # 业务服务
-│   │   └── ai_service.py  # AI服务集成
-│   ├── utils/              # 工具函数
-│   │   ├── helpers.py     # 辅助函数
-│   │   └── validators.py  # 数据验证
-│   ├── app.py             # Flask应用主文件
-│   ├── config.py          # 配置文件
-│   ├── database.py        # 数据库配置
-│   └── requirements.txt   # Python依赖
-├── frontend/               # React前端应用
+├── backend/                 # Flask backend service
+│   ├── models/             # Data models
+│   │   ├── user.py        # User model
+│   │   ├── event.py       # Event model
+│   │   └── chat.py        # Chat message model
+│   ├── routes/             # API routes
+│   │   ├── auth.py        # Authentication APIs
+│   │   ├── events.py      # Event-related APIs
+│   │   ├── chat.py        # Chat-related APIs
+│   │   ├── ai.py          # AI assistant APIs
+│   │   ├── upload.py      # File upload APIs
+│   │   └── users.py       # User-related APIs
+│   ├── services/           # Business services
+│   │   └── ai_service.py  # AI service integration
+│   ├── utils/              # Utility functions
+│   │   ├── helpers.py     # Helper functions
+│   │   └── validators.py  # Data validation
+│   ├── app.py             # Flask application main file
+│   ├── config.py          # Configuration file
+│   ├── database.py        # Database configuration
+│   └── requirements.txt   # Python dependencies
+├── frontend/               # React frontend application
 │   ├── src/
-│   │   ├── components/    # React组件
-│   │   ├── services/      # API服务
-│   │   │   └── api.js    # API客户端
+│   │   ├── components/    # React components
+│   │   ├── services/      # API services
+│   │   │   └── api.js    # API client
 │   │   ├── hooks/         # React Hooks
-│   │   ├── App.jsx        # 主应用组件
-│   │   └── main.jsx       # 应用入口
-│   ├── package.json       # Node.js依赖
-│   └── vite.config.js     # Vite配置
-└── README.md              # 项目文档
+│   │   ├── App.jsx        # Main application component
+│   │   └── main.jsx       # Application entry point
+│   ├── package.json       # Node.js dependencies
+│   └── vite.config.js     # Vite configuration
+└── README.md              # Project documentation
 ```
 
-## 🗄️ 数据库结构
+## 🗄️ Database Structure
 
-### 用户表 (User)
+### User Table
 ```sql
 CREATE TABLE user (
-    id VARCHAR(36) PRIMARY KEY,           -- UUID主键
-    username VARCHAR(80) UNIQUE NOT NULL, -- 用户名
-    email VARCHAR(120) UNIQUE NOT NULL,   -- 邮箱
-    password_hash VARCHAR(255) NOT NULL,  -- 加密密码
-    avatar VARCHAR(255) DEFAULT '',       -- 头像URL
-    bio TEXT DEFAULT '',                  -- 个人简介
-    dietary_preferences JSON DEFAULT '[]', -- 饮食偏好(JSON数组)
-    location VARCHAR(255) DEFAULT '',     -- 位置信息
+    id VARCHAR(36) PRIMARY KEY,           -- UUID primary key
+    username VARCHAR(80) UNIQUE NOT NULL, -- Username
+    email VARCHAR(120) UNIQUE NOT NULL,   -- Email
+    password_hash VARCHAR(255) NOT NULL,  -- Encrypted password
+    avatar VARCHAR(255) DEFAULT '',       -- Avatar URL
+    bio TEXT DEFAULT '',                  -- Personal bio
+    dietary_preferences JSON DEFAULT '[]', -- Dietary preferences (JSON array)
+    location VARCHAR(255) DEFAULT '',     -- Location information
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 ```
 
-### 活动表 (Event)
+### Event Table
 ```sql
 CREATE TABLE event (
-    id VARCHAR(36) PRIMARY KEY,           -- UUID主键
-    title VARCHAR(200) NOT NULL,          -- 活动标题
-    description TEXT DEFAULT '',          -- 活动描述
-    category VARCHAR(50) NOT NULL,        -- 活动分类
-    date DATETIME NOT NULL,               -- 活动日期
-    time VARCHAR(20) NOT NULL,            -- 活动时间
-    location VARCHAR(255) NOT NULL,       -- 活动地点
-    max_participants INTEGER DEFAULT 10,  -- 最大参与人数
-    budget_per_person FLOAT DEFAULT 0.0,  -- 人均预算
-    image VARCHAR(255) DEFAULT '',        -- 活动图片URL
-    status VARCHAR(20) DEFAULT 'active',  -- 状态(active/cancelled/completed)
-    creator_id VARCHAR(36) NOT NULL,      -- 创建者ID
+    id VARCHAR(36) PRIMARY KEY,           -- UUID primary key
+    title VARCHAR(200) NOT NULL,          -- Event title
+    description TEXT DEFAULT '',          -- Event description
+    category VARCHAR(50) NOT NULL,        -- Event category
+    date DATETIME NOT NULL,               -- Event date
+    time VARCHAR(20) NOT NULL,            -- Event time
+    location VARCHAR(255) NOT NULL,       -- Event location
+    max_participants INTEGER DEFAULT 10,  -- Maximum participants
+    budget_per_person FLOAT DEFAULT 0.0,  -- Budget per person
+    image VARCHAR(255) DEFAULT '',        -- Event image URL
+    status VARCHAR(20) DEFAULT 'active',  -- Status (active/cancelled/completed)
+    creator_id VARCHAR(36) NOT NULL,      -- Creator ID
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (creator_id) REFERENCES user(id)
 );
 ```
 
-### 聊天消息表 (ChatMessage)
+### Chat Message Table
 ```sql
 CREATE TABLE chat_message (
-    id VARCHAR(36) PRIMARY KEY,           -- UUID主键
-    content TEXT NOT NULL,                -- 消息内容
-    message_type VARCHAR(20) DEFAULT 'text', -- 消息类型(text/image/system)
-    sender_id VARCHAR(36) NOT NULL,       -- 发送者ID
-    event_id VARCHAR(36) NOT NULL,        -- 关联活动ID
+    id VARCHAR(36) PRIMARY KEY,           -- UUID primary key
+    content TEXT NOT NULL,                -- Message content
+    message_type VARCHAR(20) DEFAULT 'text', -- Message type (text/image/system)
+    sender_id VARCHAR(36) NOT NULL,       -- Sender ID
+    event_id VARCHAR(36) NOT NULL,        -- Associated event ID
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (sender_id) REFERENCES user(id),
     FOREIGN KEY (event_id) REFERENCES event(id)
 );
 ```
 
-### 关联表
+### Association Tables
 ```sql
--- 活动参与者关联表
+-- Event participants association table
 CREATE TABLE event_participants (
     user_id VARCHAR(36),
     event_id VARCHAR(36),
@@ -128,7 +129,7 @@ CREATE TABLE event_participants (
     FOREIGN KEY (event_id) REFERENCES event(id)
 );
 
--- 用户收藏活动关联表
+-- User saved events association table
 CREATE TABLE saved_events (
     user_id VARCHAR(36),
     event_id VARCHAR(36),
@@ -138,12 +139,12 @@ CREATE TABLE saved_events (
 );
 ```
 
-## 🔌 API接口文档
+## 🔌 API Documentation
 
-### 认证相关 (/api/auth)
+### Authentication (/api/auth)
 
 #### POST /api/auth/register
-用户注册
+User registration
 ```json
 {
   "username": "string",
@@ -153,7 +154,7 @@ CREATE TABLE saved_events (
 ```
 
 #### POST /api/auth/login
-用户登录
+User login
 ```json
 {
   "username": "string",
@@ -162,20 +163,20 @@ CREATE TABLE saved_events (
 ```
 
 #### POST /api/auth/logout
-用户登出（需要JWT Token）
+User logout (requires JWT Token)
 
 #### GET /api/auth/profile
-获取用户资料（需要JWT Token）
+Get user profile (requires JWT Token)
 
-### 活动相关 (/api/events)
+### Events (/api/events)
 
 #### GET /api/events
-获取活动列表
-- 查询参数：`page`, `per_page`, `keyword`, `filter`
-- 支持分页和关键词搜索
+Get event list
+- Query parameters: `page`, `per_page`, `keyword`, `filter`
+- Supports pagination and keyword search
 
 #### POST /api/events
-创建新活动（需要JWT Token）
+Create new event (requires JWT Token)
 ```json
 {
   "title": "string",
@@ -190,50 +191,50 @@ CREATE TABLE saved_events (
 ```
 
 #### GET /api/events/{event_id}
-获取活动详情
+Get event details
 
 #### PUT /api/events/{event_id}
-更新活动信息（需要JWT Token，仅创建者）
+Update event information (requires JWT Token, creator only)
 
 #### DELETE /api/events/{event_id}
-删除活动（需要JWT Token，仅创建者）
+Delete event (requires JWT Token, creator only)
 
 #### POST /api/events/{event_id}/join
-参与活动（需要JWT Token）
+Join event (requires JWT Token)
 
 #### POST /api/events/{event_id}/leave
-退出活动（需要JWT Token）
+Leave event (requires JWT Token)
 
 #### POST /api/events/{event_id}/save
-收藏活动（需要JWT Token）
+Save event (requires JWT Token)
 
 #### DELETE /api/events/{event_id}/save
-取消收藏（需要JWT Token）
+Unsave event (requires JWT Token)
 
 #### GET /api/events/my-events
-获取我创建的活动（需要JWT Token）
+Get my created events (requires JWT Token)
 
-### 聊天相关 (/api/chat)
+### Chat (/api/chat)
 
 #### GET /api/chat/conversations
-获取聊天会话列表（需要JWT Token）
+Get chat conversation list (requires JWT Token)
 
 #### GET /api/chat/{event_id}
-获取活动聊天记录（需要JWT Token）
-- 查询参数：`page`, `per_page`
+Get event chat history (requires JWT Token)
+- Query parameters: `page`, `per_page`
 
 #### POST /api/chat/{event_id}
-发送聊天消息（需要JWT Token）
+Send chat message (requires JWT Token)
 ```json
 {
   "message": "string"
 }
 ```
 
-### AI助手相关 (/api/ai)
+### AI Assistant (/api/ai)
 
 #### POST /api/ai/chat
-AI聊天对话（需要JWT Token）
+AI chat conversation (requires JWT Token)
 ```json
 {
   "message": "string"
@@ -241,7 +242,7 @@ AI聊天对话（需要JWT Token）
 ```
 
 #### POST /api/ai/event-suggestions
-获取活动建议（需要JWT Token）
+Get event suggestions (requires JWT Token)
 ```json
 {
   "category": "string",
@@ -249,13 +250,13 @@ AI聊天对话（需要JWT Token）
 }
 ```
 
-### 用户相关 (/api/users)
+### Users (/api/users)
 
 #### GET /api/users/profile
-获取用户资料（需要JWT Token）
+Get user profile (requires JWT Token)
 
 #### PUT /api/users/profile
-更新用户资料（需要JWT Token）
+Update user profile (requires JWT Token)
 ```json
 {
   "username": "string",
@@ -266,280 +267,417 @@ AI聊天对话（需要JWT Token）
 }
 ```
 
-### 文件上传相关 (/api/upload)
+### File Upload (/api/upload)
 
 #### POST /api/upload/avatar
-上传用户头像（需要JWT Token）
+Upload user avatar (requires JWT Token)
 - Content-Type: multipart/form-data
-- 字段名: avatar
+- Field name: avatar
 
 #### POST /api/upload/event
-上传活动图片（需要JWT Token）
+Upload event image (requires JWT Token)
 - Content-Type: multipart/form-data
-- 字段名: image
+- Field name: image
 
 #### GET /api/upload/uploads/{filename}
-获取上传的文件
+Get uploaded file
 
 #### GET /api/upload/info
-获取上传配置信息
+Get upload configuration information
 
-### 系统健康检查
+### System Health Check
 
 #### GET /api/health
-系统健康状态检查
+System health status check
 
-## 🚀 快速开始
+## 🚀 Quick Start
 
-### 环境要求
-- Python 3.8+
-- Node.js 16+
-- npm 或 yarn
+### Requirements
+- **Python 3.8+** (recommended 3.9 or higher)
+- **Node.js 16+** (recommended 18.x LTS)
+- **npm 8+** or **yarn 1.22+**
+- **Git** (for cloning the project)
 
-### 后端启动
+### Project Clone
 
-1. 进入后端目录
+```bash
+# Clone the project locally
+git clone <repository-url>
+cd mealbuddy_final
+```
+
+### Backend Environment Setup and Launch
+
+#### 1. Enter backend directory
 ```bash
 cd backend
 ```
 
-2. 创建虚拟环境
+#### 2. Create Python virtual environment
 ```bash
+# Create virtual environment
 python -m venv venv
-source venv/bin/activate  # Linux/Mac
-# 或
-venv\Scripts\activate     # Windows
+
+# Activate virtual environment
+# macOS/Linux:
+source venv/bin/activate
+
+# Windows:
+venv\Scripts\activate
+
+# Verify virtual environment is activated (should show (venv) in command line)
+which python  # macOS/Linux
+where python  # Windows
 ```
 
-3. 安装依赖
+#### 3. Install Python dependencies
 ```bash
+# Ensure pip is up to date
+pip install --upgrade pip
+
+# Install project dependencies
 pip install -r requirements.txt
 ```
 
-4. 配置环境变量
-创建 `.env` 文件：
+#### 4. Configure backend environment variables
+Create `.env` file in `backend` directory:
+```bash
+# Create environment variables file
+touch .env  # macOS/Linux
+# or create file directly # Windows
+```
+
+Add the following configuration to `.env` file:
 ```env
-SECRET_KEY=your-secret-key
-JWT_SECRET_KEY=your-jwt-secret
+# Application keys (please change to your own keys)
+SECRET_KEY=your-super-secret-key-change-this-in-production
+JWT_SECRET_KEY=your-jwt-secret-key-change-this-too
+
+# AI service configuration (optional, configure if you need AI features)
 CHATANYWHERE_API_KEY=your-chatanywhere-api-key
 CHATANYWHERE_BASE_URL=https://api.chatanywhere.tech/v1
+
+# Database configuration
 DATABASE_URL=sqlite:///mealbuddy.db
+
+# File upload configuration
 UPLOAD_FOLDER=uploads
 MAX_CONTENT_LENGTH=16777216
+
+# Development environment configuration
+FLASK_ENV=development
+FLASK_DEBUG=True
 ```
 
-5. 初始化数据库
+#### 5. Initialize database
 ```bash
+# Initialize database table structure
 python init_db.py
+
+# Verify database creation success
+ls -la instance/  # Should see mealbuddy.db file
 ```
 
-6. 启动后端服务
+#### 6. Start backend service
 ```bash
+# Start Flask development server
 python run.py
+
+# Or use Flask command
+# export FLASK_APP=app.py  # macOS/Linux
+# set FLASK_APP=app.py     # Windows
+# flask run --host=0.0.0.0 --port=3001
 ```
 
-后端服务将在 `http://localhost:3001` 启动
+✅ Backend service will start at `http://localhost:3001`
 
-### 前端启动
+### Frontend Environment Setup and Launch
 
-1. 进入前端目录
+#### 1. Open new terminal and enter frontend directory
 ```bash
+# Keep backend service running, open new terminal window
 cd frontend
 ```
 
-2. 安装依赖
+#### 2. Install Node.js dependencies
 ```bash
+# Install dependencies using npm
+npm install
+
+# Or use yarn (if you prefer yarn)
+# yarn install
+
+# Verify dependencies installation success
+npm list --depth=0
+```
+
+#### 3. Configure frontend environment variables
+Create `.env` file in `frontend` directory:
+```bash
+# Create environment variables file
+touch .env  # macOS/Linux
+```
+
+Add the following configuration to `.env` file:
+```env
+# API service address
+VITE_API_URL=http://localhost:3001
+
+# Development environment configuration
+VITE_NODE_ENV=development
+```
+
+#### 4. Start frontend development server
+```bash
+# Start Vite development server
+npm run dev
+
+# Or use yarn
+# yarn dev
+```
+
+✅ Frontend application will start at `http://localhost:5173` (port may auto-adjust)
+
+### 🎯 Installation Verification
+
+1. **Backend Verification**:
+   - Visit `http://localhost:3001/api/health`
+   - Should see: `{"status": "healthy", "message": "MealBuddy Flask API is running"}`
+
+2. **Frontend Verification**:
+   - Visit `http://localhost:5173`
+   - Should see MealBuddy homepage interface
+
+3. **Feature Verification**:
+   - Try registering a new user
+   - Login to the system
+   - Create a new event
+   - Test chat functionality
+
+### 🔧 Common Issues Resolution
+
+#### Python-related Issues
+```bash
+# If encountering permission issues
+sudo pip install -r requirements.txt  # Not recommended, use virtual environment instead
+
+# If Python version incompatible
+python3 -m venv venv  # Explicitly use Python3
+
+# If pip installation is slow
+pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple/
+```
+
+#### Node.js-related Issues
+```bash
+# If npm installation is slow
+npm install --registry https://registry.npmmirror.com
+
+# Clear npm cache
+npm cache clean --force
+
+# Delete node_modules and reinstall
+rm -rf node_modules package-lock.json
 npm install
 ```
 
-3. 配置环境变量
-创建 `.env` 文件：
-```env
-VITE_API_URL=http://localhost:3001
-```
-
-4. 启动开发服务器
+#### Port Conflict Issues
 ```bash
-npm run dev
+# Check port usage
+lsof -i :3001  # Check backend port
+lsof -i :5173  # Check frontend port
+
+# Kill occupying process
+kill -9 <PID>
+
+# Or start with different port
+# Backend: modify port parameter in run.py
+# Frontend: vite will automatically choose available port
 ```
 
-前端应用将在 `http://localhost:5173` 启动
+### 📱 Production Environment Deployment
 
-## 📊 实验报告
+#### Frontend Build
+```bash
+cd frontend
+npm run build
+# Build files will be generated in dist/ directory
+```
 
-### 项目概述
+#### Backend Production Configuration
+```bash
+# Install production server
+pip install gunicorn
 
-MealBuddy是一个现代化的饭局社交平台，旨在解决现代都市人群组织聚餐活动的痛点。通过提供直观的界面、实时聊天功能和AI智能推荐，让用户能够轻松创建、发现和参与各种美食聚会。
+# Start production server
+gunicorn -w 4 -b 0.0.0.0:3001 app:app
+```
 
-### 核心功能实现
+### 🛠️ Recommended Development Tools
 
-#### 1. 用户认证系统
-- **技术实现**：基于JWT的无状态认证
-- **安全特性**：
-  - bcrypt密码加密
-  - Token过期自动处理
-  - 跨域安全配置
-- **用户体验**：
-  - 自动登录状态保持
-  - 友好的错误提示
-  - 响应式登录界面
+- **IDE**: VS Code, PyCharm, WebStorm
+- **API Testing**: Postman, Insomnia
+- **Database Management**: DB Browser for SQLite
+- **Version Control**: Git + GitHub Desktop
+- **Terminal**: iTerm2 (macOS), Windows Terminal (Windows)
 
-#### 2. 活动管理系统
-- **功能特点**：
-  - 活动创建、编辑、删除
-  - 多维度筛选和搜索
-  - 活动状态管理（活跃/已取消/已完成）
-  - 参与者管理
-- **技术亮点**：
-  - SQLAlchemy ORM关系映射
-  - 分页查询优化
-  - 图片上传和处理
-  - 实时状态同步
+## 📊 Experimental Report
 
-#### 3. 实时聊天系统
-- **技术架构**：
-  - Flask-SocketIO WebSocket通信
-  - 基于活动的聊天室
-  - 消息持久化存储
-- **功能特性**：
-  - 实时消息推送
-  - 聊天历史记录
-  - 用户在线状态
-  - 消息类型支持（文本/图片/系统消息）
+### Project Overview
 
-#### 4. AI智能助手
-- **集成方案**：ChatAnywhere API (GPT-3.5-turbo)
-- **应用场景**：
-  - 餐厅推荐
-  - 活动建议
-  - 美食咨询
-  - 聚餐规划
-- **优化策略**：
-  - 上下文感知对话
-  - 用户偏好学习
-  - 响应时间优化
+MealBuddy is a modern social dining platform designed to solve the pain points of organizing dining events for urban populations. By providing an intuitive interface, real-time chat functionality, and AI-powered recommendations, it enables users to easily create, discover, and participate in various food gathering activities.
 
-#### 5. 文件上传系统
-- **支持格式**：PNG, JPG, JPEG, GIF
-- **安全措施**：
-  - 文件类型验证
-  - 文件大小限制（16MB）
-  - 安全文件名处理
-- **存储方案**：本地文件系统存储
+### Core Feature Implementation
 
-### 技术架构分析
+#### 1. User Authentication System
+- **Technical Implementation**: JWT-based stateless authentication
+- **Security Features**:
+  - bcrypt password encryption
+  - Automatic token expiration handling
+  - Cross-origin security configuration
+- **User Experience**:
+  - Automatic login state persistence
+  - Friendly error messages
+  - Responsive login interface
 
-#### 前端架构
-- **组件化设计**：React函数组件 + Hooks
-- **状态管理**：useState + useEffect本地状态管理
-- **API通信**：统一的ApiService封装
-- **样式方案**：原生CSS + CSS变量主题系统
-- **构建工具**：Vite快速开发和构建
+#### 2. Event Management System
+- **Feature Highlights**:
+  - Event creation, editing, deletion
+  - Multi-dimensional filtering and search
+  - Event status management (active/cancelled/completed)
+  - Participant management
+- **Technical Highlights**:
+  - SQLAlchemy ORM relationship mapping
+  - Paginated query optimization
+  - Image upload and processing
+  - Real-time status synchronization
 
-#### 后端架构
-- **框架选择**：Flask轻量级框架，适合中小型项目
-- **数据库设计**：SQLite + SQLAlchemy ORM
-- **API设计**：RESTful API + Blueprint模块化
-- **认证方案**：JWT无状态认证
-- **实时通信**：WebSocket双向通信
+#### 3. Real-time Chat System
+- **Technical Architecture**:
+  - Flask-SocketIO WebSocket communication
+  - Event-based chat rooms
+  - Message persistence storage
+- **Feature Characteristics**:
+  - Real-time message push
+  - Chat history records
+  - User online status
+  - Message type support (text/image/system messages)
 
-### 性能优化
+#### 4. AI Intelligent Assistant
+- **Integration Solution**: ChatAnywhere API (GPT-3.5-turbo)
+- **Application Scenarios**:
+  - Restaurant recommendations
+  - Event suggestions
+  - Food consultation
+  - Dining planning
+- **Optimization Strategies**:
+  - Context-aware conversations
+  - User preference learning
+  - Response time optimization
 
-#### 前端优化
-1. **代码分割**：Vite自动代码分割
-2. **懒加载**：组件按需加载
-3. **缓存策略**：localStorage本地缓存
-4. **网络优化**：API请求去重和错误重试
+#### 5. File Upload System
+- **Supported Formats**: PNG, JPG, JPEG, GIF
+- **Security Measures**:
+  - File type validation
+  - File size limitation (16MB)
+  - Secure filename handling
+- **Storage Solution**: Local file system storage
 
-#### 后端优化
-1. **数据库优化**：
-   - 索引优化（用户名、邮箱唯一索引）
-   - 查询优化（分页查询、关联查询）
-   - 连接池管理
-2. **API优化**：
-   - 响应数据结构优化
-   - 错误处理统一化
-   - 请求参数验证
+### Technical Architecture Analysis
 
-### 安全性考虑
+#### Frontend Architecture
+- **Component-based Design**: React functional components + Hooks
+- **State Management**: useState + useEffect local state management
+- **API Communication**: Unified ApiService encapsulation
+- **Styling Solution**: Native CSS + CSS variable theme system
+- **Build Tool**: Vite for fast development and building
 
-1. **认证安全**：
-   - JWT Token安全传输
-   - 密码bcrypt加密存储
-   - Token过期机制
+#### Backend Architecture
+- **Framework Choice**: Flask lightweight framework, suitable for small to medium projects
+- **Database Design**: SQLite + SQLAlchemy ORM
+- **API Design**: RESTful API + Blueprint modularization
+- **Authentication Scheme**: JWT stateless authentication
+- **Real-time Communication**: WebSocket bidirectional communication
 
-2. **数据安全**：
-   - SQL注入防护（ORM参数化查询）
-   - XSS防护（输入验证和转义）
-   - CSRF防护（CORS配置）
+### Performance Optimization
 
-3. **文件安全**：
-   - 文件类型白名单
-   - 文件大小限制
-   - 安全文件名处理
+#### Frontend Optimization
+1. **Code Splitting**: Vite automatic code splitting
+2. **Lazy Loading**: Component on-demand loading
+3. **Caching Strategy**: localStorage local caching
+4. **Network Optimization**: API request deduplication and error retry
 
-### 测试与部署
+#### Backend Optimization
+1. **Database Optimization**:
+   - Index optimization (username, email unique indexes)
+   - Query optimization (paginated queries, relational queries)
+   - Connection pool management
+2. **API Optimization**:
+   - Response data structure optimization
+   - Unified error handling
+   - Request parameter validation
 
-#### 开发测试
-- **功能测试**：手动测试各功能模块
-- **兼容性测试**：多浏览器兼容性验证
-- **性能测试**：页面加载速度和API响应时间
+### Security Considerations
 
-#### 部署方案
-- **开发环境**：本地开发服务器
-- **生产环境建议**：
-  - 前端：Nginx静态文件服务
-  - 后端：Gunicorn + Nginx反向代理
-  - 数据库：PostgreSQL或MySQL
-  - 缓存：Redis
+1. **Authentication Security**:
+   - JWT Token secure transmission
+   - Password bcrypt encryption storage
+   - Token expiration mechanism
 
-### 项目亮点
+2. **Data Security**:
+   - SQL injection protection (ORM parameterized queries)
+   - XSS protection (input validation and escaping)
+   - CSRF protection (CORS configuration)
 
-1. **现代化技术栈**：React 18 + Flask最新版本
-2. **实时通信**：WebSocket实时聊天体验
-3. **AI集成**：智能助手提升用户体验
-4. **响应式设计**：适配多种设备屏幕
-5. **模块化架构**：前后端分离，易于维护和扩展
+3. **File Security**:
+   - File type whitelist
+   - File size limitations
+   - Secure filename handling
 
-### 未来改进方向
+### Testing and Deployment
 
-1. **功能扩展**：
-   - 地图集成（活动位置可视化）
-   - 支付集成（AA收款功能）
-   - 社交功能（好友系统、动态分享）
-   - 推荐算法（基于用户行为的智能推荐）
+#### Development Testing
+- **Functional Testing**: Manual testing of various functional modules
+- **Compatibility Testing**: Multi-browser compatibility verification
+- **Performance Testing**: Page loading speed and API response time
 
-2. **技术优化**：
-   - 微服务架构重构
-   - 容器化部署（Docker）
-   - 自动化测试（单元测试、集成测试）
-   - 监控和日志系统
+#### Deployment Solutions
+- **Development Environment**: Local development server
+- **Production Environment Recommendations**:
+  - Frontend: Nginx static file service
+  - Backend: Gunicorn + Nginx reverse proxy
+  - Database: PostgreSQL or MySQL
+  - Cache: Redis
 
-3. **用户体验**：
-   - PWA支持（离线使用）
-   - 推送通知
-   - 多语言支持
-   - 无障碍访问优化
+### Project Highlights
 
-### 总结
+1. **Modern Tech Stack**: React 18 + Latest Flask version
+2. **Real-time Communication**: WebSocket real-time chat experience
+3. **AI Integration**: Intelligent assistant enhances user experience
+4. **Responsive Design**: Adapts to various device screens
+5. **Modular Architecture**: Frontend-backend separation, easy to maintain and extend
 
-MealBuddy项目成功实现了一个功能完整的饭局社交平台，展示了现代Web开发的最佳实践。通过React和Flask的组合，实现了高效的前后端分离架构。项目在用户体验、技术实现和安全性方面都达到了较高的水准，为用户提供了便捷的饭局组织和社交体验。
+### Future Improvement Directions
 
-## 📝 许可证
+1. **Feature Extensions**:
+   - Map integration (event location visualization)
+   - Payment integration (AA payment functionality)
+   - Social features (friend system, dynamic sharing)
+   - Recommendation algorithms (intelligent recommendations based on user behavior)
 
-MIT License
+2. **Technical Optimization**:
+   - Microservice architecture refactoring
+   - Containerized deployment (Docker)
+   - Automated testing (unit tests, integration tests)
+   - Monitoring and logging systems
 
-## 👥 贡献者
+3. **User Experience**:
+   - PWA support (offline usage)
+   - Push notifications
+   - Multi-language support
+   - Accessibility optimization
 
-- 开发者：aguai
-- 项目类型：个人学习项目
+### Summary
 
-## 📞 联系方式
+The MealBuddy project successfully implements a fully functional social dining platform, demonstrating best practices in modern web development. Through the combination of React and Flask, it achieves an efficient frontend-backend separation architecture. The project reaches high standards in user experience, technical implementation, and security, providing users with a convenient dining event organization and social experience.
 
-如有问题或建议，请通过以下方式联系：
-- 项目仓库：[GitHub Repository]
-- 邮箱：[Your Email]
-
----
-
-*最后更新时间：2024年12月*
