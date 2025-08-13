@@ -16,41 +16,45 @@ migrate = Migrate()
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
-    
+
+    # Initialize extensions
     db.init_app(app)
     jwt.init_app(app)
     socketio.init_app(app)
     migrate.init_app(app, db)
     CORS(app)
-    
+
+    # Register blueprints
     from routes.auth import auth_bp
     from routes.events import events_bp
     from routes.chat import chat_bp
     from routes.ai import ai_bp
     from routes.upload import upload_bp
     from routes.users import users_bp
-    
+
     app.register_blueprint(auth_bp, url_prefix='/api/auth')
     app.register_blueprint(events_bp, url_prefix='/api/events')
     app.register_blueprint(chat_bp, url_prefix='/api/chat')
     app.register_blueprint(ai_bp, url_prefix='/api/ai')
     app.register_blueprint(upload_bp, url_prefix='/api/upload')
     app.register_blueprint(users_bp, url_prefix='/api/users')
-    
+
+    # Create upload directory
     upload_dir = os.path.join(app.instance_path, app.config['UPLOAD_FOLDER'])
     os.makedirs(upload_dir, exist_ok=True)
-    
+
+    # Create database tables
     with app.app_context():
         db.create_all()
-    
+
     @app.route('/api/health')
     def health_check():
         return {'status': 'healthy', 'message': 'MealBuddy Flask API is running'}
-    
+
     return app
 
+# This is the line Gunicorn will look for
+app = create_app()
 
 if __name__ == '__main__':
-    app = create_app()
-    port = int(os.environ.get("PORT", 8000))
-    socketio.run(app, host='0.0.0.0', port=port)
+    socketio.run(app, debug=True, host='0.0.0.0', port=3001)
