@@ -1,0 +1,1 @@
+Unzip, then: npm install && npm run dev
