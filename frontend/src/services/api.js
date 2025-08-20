@@ -8,7 +8,9 @@ class ApiService {
   async request(endpoint, options = {}) {
     const config = {
       headers: {
-        'Content-Type': 'application/json',
+        ...(options.body instanceof FormData
+          ? {}
+          : { 'Content-Type': 'application/json' }),
         ...(this.token && { Authorization: `Bearer ${this.token}` }),
         ...options.headers,
       },
@@ -17,12 +19,12 @@ class ApiService {
 
     try {
       const response = await fetch(`${API_BASE}${endpoint}`, config);
-      
+
       if (response.status === 401) {
         this.clearAuth();
         throw new Error('Authentication required');
       }
-      
+
       if (!response.ok) {
         let errorData;
         try {
@@ -30,16 +32,17 @@ class ApiService {
         } catch {
           errorData = { error: `HTTP ${response.status}` };
         }
-        
-        // Create error with response data attached
-        const error = new Error(errorData.error || errorData.message || `HTTP ${response.status}`);
+
+        const error = new Error(
+          errorData.error || errorData.message || `HTTP ${response.status}`
+        );
         error.response = {
           data: errorData,
-          status: response.status
+          status: response.status,
         };
         throw error;
       }
-      
+
       return await response.json();
     } catch (error) {
       console.error(`API Error [${endpoint}]:`, error);
@@ -62,18 +65,18 @@ class ApiService {
     localStorage.removeItem('user');
   }
 
-  // 认证相关API
+  // AUTH API
   async login(credentials) {
     const response = await this.request('/api/auth/login', {
       method: 'POST',
       body: JSON.stringify(credentials),
     });
-    
-    if (response.token) {
+
+    if (response.token && response.user) {
       this.setToken(response.token);
       localStorage.setItem('user', JSON.stringify(response.user));
     }
-    
+
     return response;
   }
 
@@ -82,12 +85,12 @@ class ApiService {
       method: 'POST',
       body: JSON.stringify(userData),
     });
-    
-    if (response.token) {
+
+    if (response.token && response.user) {
       this.setToken(response.token);
       localStorage.setItem('user', JSON.stringify(response.user));
     }
-    
+
     return response;
   }
 
@@ -99,7 +102,7 @@ class ApiService {
     }
   }
 
-  // 用户相关API
+  // USER API
   async getUserProfile() {
     return this.request('/api/users/profile');
   }
@@ -111,7 +114,7 @@ class ApiService {
     });
   }
 
-  // 活动相关API
+  // EVENTS API
   async getEvents(filters = {}) {
     const params = new URLSearchParams();
     Object.entries(filters).forEach(([key, value]) => {
@@ -119,7 +122,7 @@ class ApiService {
         params.append(key, value);
       }
     });
-    
+
     const queryString = params.toString();
     return this.request(`/api/events${queryString ? `?${queryString}` : ''}`);
   }
@@ -176,7 +179,7 @@ class ApiService {
     return this.request('/api/events/saved');
   }
 
-  // 聊天相关API
+  // CHAT API
   async getChatConversations() {
     return this.request('/api/chat/conversations');
   }
@@ -188,13 +191,11 @@ class ApiService {
   async sendMessage(eventId, message) {
     return this.request(`/api/chat/${eventId}`, {
       method: 'POST',
-      body: JSON.stringify({ 
-        message: message
-      }),
+      body: JSON.stringify({ message }),
     });
   }
 
-  // AI相关API
+  // AI API
   async sendAIMessage(message) {
     return this.request('/api/ai/chat', {
       method: 'POST',
@@ -202,26 +203,26 @@ class ApiService {
     });
   }
 
-  // 文件上传API
+  // FILE UPLOAD API
   async uploadAvatar(file) {
     const formData = new FormData();
     formData.append('avatar', file);
-    
+
     return this.request('/api/upload/avatar', {
       method: 'POST',
       body: formData,
-      headers: {}, // 让浏览器自动设置Content-Type
+      headers: {},
     });
   }
 
   async uploadEventImage(file) {
     const formData = new FormData();
     formData.append('image', file);
-    
+
     return this.request('/api/upload/event', {
       method: 'POST',
       body: formData,
-      headers: {}, // 让浏览器自动设置Content-Type
+      headers: {},
     });
   }
 }
